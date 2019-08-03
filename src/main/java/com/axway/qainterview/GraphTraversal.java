@@ -1,9 +1,6 @@
 package com.axway.qainterview;
 
-import java.util.Set;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class GraphTraversal {
 
@@ -24,4 +21,20 @@ public class GraphTraversal {
 		return visited;
 	}
 
+	public static Set<String> depthFirstTraversal(Graph graph, String root) {
+		Set<String> visited = new LinkedHashSet<>();
+		Stack<String> stack = new Stack<>();
+		stack.push(root);
+		while(!stack.empty()) {
+			String next = stack.pop();
+			visited.add(next);
+			for (Graph.Vertex adjVertex : graph.getAdjVertices(next)) {
+				String adjLabel = adjVertex.toString();
+				if (!visited.contains(adjLabel)) {
+					stack.push(adjLabel);
+				}
+			}
+		}
+		return visited;
+	}
 }
