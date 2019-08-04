@@ -13,19 +13,39 @@ public class GraphController {
 
     private final AtomicLong counter = new AtomicLong();
     private final Map<Long, Graph> graphMap = new HashMap<>();
+
     @GetMapping
     public String getGraph(@RequestParam(value = "id") long id) {
         Graph graph = graphMap.get(id);
-        if (graph!= null){
+        if (graph != null) {
             return graph.printGraph();
         }
 
-        return null;
+        return "Not found!";
+    }
+
+    @DeleteMapping
+    public String deleteGraph(@RequestParam(value = "id") long id) {
+        Graph graph = graphMap.remove(id);
+        if (graph != null) {
+            return "Delete successful!";
+        }
+        return "Graph not found in map!";
+    }
+
+    @PutMapping
+    public String updateGraph(@RequestBody @NotNull GraphDTO requestGraph, @RequestParam(value = "id") long id) {
+        Graph graph = convertGraphDto(requestGraph);
+        if (graph != null&&graphMap.containsKey(id)) {
+            graphMap.put(id, graph);
+            return "Update successful!";
+        }
+        return "Error!";
     }
 
     @PostMapping
     public long createGraph(@RequestBody @NotNull GraphDTO requestGraph) {
-        Graph graph= convertGraphDto(requestGraph);
+        Graph graph = convertGraphDto(requestGraph);
         long graphID = counter.incrementAndGet();
         graphMap.put(graphID, graph);
 
