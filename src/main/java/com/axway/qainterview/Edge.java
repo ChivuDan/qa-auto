@@ -4,6 +4,14 @@ public class Edge {
     private String label1;
     private String label2;
 
+    public Edge() {
+    }
+
+    public Edge(String label1, String label2) {
+        this.label1 = label1;
+        this.label2 = label2;
+    }
+
     public String getLabel1() {
         return label1;
     }
